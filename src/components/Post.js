@@ -2,22 +2,21 @@ import "../shared/App.css"
 import React from "react";
 import { Grid, Image, Text, Button } from "../elements";
 
-// import {history} from "../redux/configureStore";
+import {history} from "../redux/configureStore";
 
  const Post = (props) => {
   return (
     <React.Fragment>
-      <Grid>
-        <Grid is_flex padding="16px">
-          <Grid is_flex width="auto">
-            <Image shape="circle" src={props.user_info.user_profile} />
+        <Grid is_flex justify="space-between" padding="1px">
+          <Grid is_flex j width="auto">
+            <Image shape="circle" src={props.user_info.image} />
             <Text bold>{props.user_info.user_name}</Text>
           </Grid>
-          <Grid width="auto">
-            <Text align="right">{props.insert_dt}</Text>
+          <Grid is_flex width="auto">
+            <Text>{props.insert_dt}</Text>
             {props.is_me && (
               <Button width="auto" margin="4px" padding="4px" _onClick={() => {
-                // history.push(`/write/${props.id}`);
+                history.push(`/edit/${props.id}`);
               }}>
                 수정
               </Button>
@@ -30,12 +29,11 @@ import { Grid, Image, Text, Button } from "../elements";
         <Grid>
           <Image shape="rectangle" src={props.image_url} />
         </Grid>
-        <Grid padding="16px">
+        <Grid padding="16px 1px 80px 16px">
           <Text margin="0px" bold>
-            댓글 {props.comment_cnt}개
+            좋아요 {props.comment_cnt}개
           </Text>
         </Grid>
-      </Grid>
     </React.Fragment>
   );
 };

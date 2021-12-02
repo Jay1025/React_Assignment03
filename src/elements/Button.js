@@ -42,12 +42,11 @@ const ElButton = styled.button`
   padding: ${(props) => props.padding};
   box-sizing: border-box;
   border: 1px solid white;
-  /* ${(props) => (props.margin ? `margin: ${props.margin};` : "")} */
+  margin: ${(props) => (props.margin? `${props.margin}` : "")};
   &:hover{
       opacity: 0.8;
       cursor: pointer;
     }
-  margin: ${(props) => (props.margin? `${props.margin}` : "")}
 `;
 
 const FloatButton = styled.button`

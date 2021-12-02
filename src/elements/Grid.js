@@ -2,19 +2,20 @@ import React from "react";
 import styled from "styled-components";
 
 const Grid = (props) => {
-  const { is_flex, padding, bg, children, center } = props;
+  const { is_flex, padding, bg, children, center, justify, _onClick, width, margin } = props;
 
   const styles = {
       is_flex: is_flex,
-      width: "70%",
-      margin: "auto",
+      width: width,
+      margin: margin,
       padding: padding,
       bg: bg,
       center: center,
+      justify: justify,
   };
   return (
     <React.Fragment>
-      <GridBox {...styles}>{children}</GridBox>
+      <GridBox {...styles} onClick={_onClick}>{children} </GridBox>
     </React.Fragment>
   );
 };
@@ -27,20 +28,23 @@ Grid.defaultProps = {
   margin: false,
   bg: false,
   center: false,
+  justify: false,
+  _onClick: () => {}
 };
 
 const GridBox = styled.div`
   width: ${(props) => props.width};
   height: 100%;
   box-sizing: border-box;
-  ${(props) => (props.padding ? `padding: ${props.padding};` : "")}
-  ${(props) => (props.margin ? `margin: ${props.margin};` : "")}
-  ${(props) => (props.bg ? `background-color: ${props.bg};` : "")}
+  ${(props) => (props.padding ? `padding: ${props.padding};` : "")};
+  ${(props) => (props.margin ? `margin: ${props.margin};` : "")};
+  ${(props) => (props.bg ? `background-color: ${props.bg};` : "")};
   ${(props) =>
     props.is_flex
-      ? `display: flex; align-items: center;`
-      : ""}
-  ${(props) => props.center? `text-align: center;`: ""}
+      ? `display: flex; align-items: center; `
+      : ""};
+  ${(props) => props.center? `text-align: center;`: ""};
+  justify-content: ${(props) => props.justify? `${props.justify};` : ""};
   /* border: 1px solid black; */
 `;
 
