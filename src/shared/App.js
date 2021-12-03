@@ -35,7 +35,7 @@ function App() {
 
   return (
     <React.Fragment>
-      <Grid width="40%" margin="0 auto">
+      <Grid max="500px" margin="0 auto">
         <Header></Header>
         <ConnectedRouter history={history}>
           <Route exact path="/" component={PostList} />

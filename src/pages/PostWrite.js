@@ -5,13 +5,14 @@ import Upload from "../shared/Upload";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
 import { actionCreators as imageActions } from "../redux/modules/image";
+import { sample } from "lodash";
+
 
 const PostWrite = (props) => {
   const dispatch = useDispatch();
   const is_login = useSelector((state) => state.user.is_login);
   const preview = useSelector((state) => state.image.preview);
   const post_list = useSelector((state) => state.post.list);
-
   const post_id = props.match.params.id;
   const is_edit = post_id ? true : false;
 
@@ -20,7 +21,7 @@ const PostWrite = (props) => {
   let _post = is_edit ? post_list.find((p) => p.id === post_id) : null;
 
   const [contents, setContents] = React.useState(_post ? _post.contents : "");
-
+  
   React.useEffect(() => {
     if (is_edit && !_post) {
       console.log("포스트 정보가 없어요!");
@@ -46,6 +47,17 @@ const PostWrite = (props) => {
     dispatch(postActions.editPostFB(post_id, {contents: contents}));
   }
 
+  const [menu, setMenu] = React.useState(0);
+
+  const samples = [
+    {name: "choice", nickname: "sample_center", label: "center"}, 
+    {name: "choice", nickname: "sample_left", label: "left"}, 
+    {name: "choice", nickname: "sample_right", label: "right"}
+  ]
+  const buttonClicked = (idx) => {
+    const hello = setMenu(idx);
+    console.log(hello)
+  };
   if (!is_login) {
     return (
       <Grid margin="100px 0px" padding="16px" center>
@@ -82,11 +94,21 @@ const PostWrite = (props) => {
           <Text margin="0px" size="24px" bold>
             미리보기
           </Text>
-        
+          <Grid is_flex>
+            {samples.map((radio, idx) => {
+              return (
+                <Input radio type="radio" label={radio.label} name={radio.name} 
+                className={menu === idx? "submenu focused" : "submenu"}
+                _onChange={()=>buttonClicked(idx)}/> 
+              )
+            })}
+          </Grid>
+          { 
           <Image
-            shape="rectangle"
+            shape={samples[menu].nickname}
             src={preview ? preview : "http://via.placeholder.com/400x300"}
             />
+          }
         </Grid>
       </Grid>
 
