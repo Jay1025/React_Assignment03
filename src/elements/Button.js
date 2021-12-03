@@ -7,7 +7,7 @@ const Button = (props) => {
   if (is_float) {
     return (
       <React.Fragment>
-        <FloatButton onClick={_onClick}>{text? text : children}</FloatButton>
+        <FloatButton onClick={(event) => {_onClick(event)}}>{text? text : children}</FloatButton>
       </React.Fragment>
     );
   }

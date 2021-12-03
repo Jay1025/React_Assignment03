@@ -10,6 +10,8 @@ const SET_POST = "SET_POST";
 const ADD_POST = "ADD_POST";
 const EDIT_POST = "EDIT_POST";
 const LOADING = "LOADING";
+const DELETE_POST = "DELETE_POST";
+const LIKE_POST = "LIKE_POST"
 
 const setPost = createAction(SET_POST, (post_list, paging) => ({ post_list, paging }));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
@@ -18,6 +20,8 @@ const editPost = createAction(EDIT_POST, (post_id, post) => ({
   post,
 }));
 const loading = createAction(LOADING, (is_loading) => ({ is_loading}));
+const deletePost = createAction(DELETE_POST, (post_id) => ({ post_id}));
+const likePost = createAction(LIKE_POST, (post_id) => ({ post_id}));
 
 const initialState = {
   list: [],
@@ -28,9 +32,16 @@ const initialState = {
 const initialPost = {
   image_url: "",
   contents: "",
-  comment_cnt: 0,
+  like_cnt: 0,
   insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
 };
+
+// const likePostFB = () => {
+//     const _post_idx = getState().post.list.findIndex((p) => p.id === post_id);
+//     const _post = getState().post.list[_post_idx];
+
+//     const postDB = firestore.collection("post");
+// }
 
 const editPostFB = (post_id = null, post = {}) => {
   return function (dispatch, getState, { history }) {
@@ -43,8 +54,6 @@ const editPostFB = (post_id = null, post = {}) => {
 
     const _post_idx = getState().post.list.findIndex((p) => p.id === post_id);
     const _post = getState().post.list[_post_idx];
-
-    console.log(_post);
 
     const postDB = firestore.collection("post");
 
@@ -207,6 +216,31 @@ const getPostFB = (start = null, size = 3) => {
   };
 };
 
+const deletePostFB = (post_id) => {
+  return function (dispatch, getState, {history}) {
+    if(!post_id){
+      window.alert("아이디가 없네요!");
+      return;
+    }
+  
+    console.log(getState().user);
+
+    const postDB = firestore.collection("post").doc(post_id);
+      postDB
+        .delete()
+        .then((doc) => {
+          console.log(doc, post_id)
+          dispatch(deletePost(post_id));
+          history.replace("/");
+        });
+  }
+} 
+
+
+
+      
+  
+
 export default handleActions(
   {
     [SET_POST]: (state, action) =>
@@ -228,7 +262,13 @@ export default handleActions(
       }),
     [LOADING] : (state, action) => produce(state, (draft) => {
       draft.is_loading = action.payload.is_loading;
-    })
+    }),
+    [DELETE_POST]: (state, action) => 
+      produce(state, (draft) => {
+        let idx = draft.list.findIndex((p) => p.id === action.payload.post_id);
+        draft.list.splice(idx,1); 
+    }),
+   
   },
   initialState
 );
@@ -240,6 +280,7 @@ const actionCreators = {
   getPostFB,
   addPostFB,
   editPostFB,
+  deletePostFB,
 };
 
 export { actionCreators };
