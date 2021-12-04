@@ -15,9 +15,6 @@ const Post = (props) => {
   const like_myList = like_totallist.filter(list => list.user_id === props.user_info.user_id)
   const like_list = like_myList.findIndex((p) => p.post_id === props.id);
   const heart = like_myList[like_list];
-  console.log(like_list)
-  console.log(heart)
-  console.log(like_myList)
 
   function deleteBtn(post_id) {
     return dispatch(postActions.deletePostFB(post_id));
@@ -57,17 +54,16 @@ const Post = (props) => {
             )}
           </Grid>
         </Grid>
-        <Grid padding="16px">
-          <Text>{props.contents}</Text>
-        </Grid>
-        <Grid>
-          <Image shape="rectangle" src={props.image_url}  _onClick={() => {history.push(`/detail/${props.id}`)}} />
-        </Grid>
+              {props.list_align === "sample_center"? <Text>{props.contents}</Text> : null}       
+            <Grid is_flex>
+              {props.list_align === "sample_right"? <Text width="50%">{props.contents}</Text>: null}
+              <Image shape={props.list_align} src={props.image_url}  _onClick={() => {history.push(`/detail/${props.id}`)}} />
+              {props.list_align === "sample_left"? <Text width="50%">{props.contents}</Text> : null}
+            </Grid>
         <Grid is_flex padding="16px 1px 80px 16px">
           <Text margin="0px" bold> 좋아요 {props.like_cnt}개 </Text>
           {
             like_myList.map((list)=> {
-              console.log(list.heart)
               return (
                 
                 list.heart? 

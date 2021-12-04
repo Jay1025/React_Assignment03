@@ -19,7 +19,6 @@ const PostWrite = (props) => {
   const { history } = props;
 
   let _post = is_edit ? post_list.find((p) => p.id === post_id) : null;
-
   const [contents, setContents] = React.useState(_post ? _post.contents : "");
   
   React.useEffect(() => {
@@ -35,29 +34,34 @@ const PostWrite = (props) => {
     }
   }, []);
 
+  const [menu, setMenu] = React.useState(_post? _post.list_align : "sample_center");
+
+  const samples = [
+    {name: "choice", value: "sample_center", label: "center", }, 
+    {name: "choice", value: "sample_left", label: "left"}, 
+    {name: "choice", value: "sample_right", label: "right"}
+  ]
+  const buttonClicked = (e) => {
+    setMenu(e);
+  };
+
   const changeContents = (e) => {
     setContents(e.target.value);
   };
 
   const addPost = () => {
-    dispatch(postActions.addPostFB(contents));
+    if(contents === ""){
+      return window.alert("게시글을 작성해 주세요!")
+    }else if(preview === null) {
+      return window.alert("사진을 등록해 주세요.")
+    }
+    dispatch(postActions.addPostFB(contents, menu));
   };
 
   const editPost = () => {
-    dispatch(postActions.editPostFB(post_id, {contents: contents}));
+    dispatch(postActions.editPostFB(post_id, {contents: contents, list_align :menu}));
   }
 
-  const [menu, setMenu] = React.useState(0);
-
-  const samples = [
-    {name: "choice", nickname: "sample_center", label: "center"}, 
-    {name: "choice", nickname: "sample_left", label: "left"}, 
-    {name: "choice", nickname: "sample_right", label: "right"}
-  ]
-  const buttonClicked = (idx) => {
-    const hello = setMenu(idx);
-    console.log(hello)
-  };
   if (!is_login) {
     return (
       <Grid margin="100px 0px" padding="16px" center>
@@ -97,18 +101,23 @@ const PostWrite = (props) => {
           <Grid is_flex>
             {samples.map((radio, idx) => {
               return (
-                <Input radio type="radio" label={radio.label} name={radio.name} 
-                className={menu === idx? "submenu focused" : "submenu"}
-                _onChange={()=>buttonClicked(idx)}/> 
+                  <Input radio type="radio" label={radio.label} name={radio.name}
+                  value={menu === samples[idx].value? "submenu focused" : "submenu"}
+                  _onChange={()=>buttonClicked(samples[idx].value)}/> 
               )
             })}
           </Grid>
+            {menu === "sample_center"? <Text pre_text></Text> : null}
+          <Grid is_flex>
+            {menu === "sample_right"? <Text pre_text width="50%"></Text>: null}
           { 
           <Image
-            shape={samples[menu].nickname}
-            src={preview ? preview : "http://via.placeholder.com/400x300"}
+            shape={menu}
+            src={preview ? preview : "https://file.mk.co.kr/meet/neds/2021/06/image_readtop_2021_535745_16226846584668330.jpg"}
             />
           }
+            {menu === "sample_left"? <Text pre_text width="50%"></Text> : null}
+          </Grid>
         </Grid>
       </Grid>
 

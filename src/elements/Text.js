@@ -2,9 +2,9 @@ import React from "react";
 import styled from "styled-components";
 
 const Text = (props) => {
-  const { bold, color, size, children, margin, align, __onClick, is_text, textarea, center_text, right_text, left_text, width } = props;
+  const { bold, color, size, children, margin, align, __onClick, is_text, textarea, pre_text, width, padding } = props;
 
-  const styles = {bold: bold, color: color, size: size, margin : margin, align : align, textarea : textarea, width: width};
+  const styles = {bold: bold, color: color, size: size, margin : margin, align : align, textarea : textarea, width: width, padding: padding};
   
   if(is_text){
     return (
@@ -12,21 +12,9 @@ const Text = (props) => {
       )
     }
   
-  if(center_text){
+  if(pre_text){
     return(
-      <P align={align} margin={margin}>미리보기 화면입니다. 미리보기 화면입니다. 미리보기 화면입니다. 미리보기 화면입니다. 미리보기 화면입니다. 미리보기 화면입니다.</P>
-    )
-  }
-  
-  if(right_text){
-    return(
-      <P align={align} margin={margin} width={width}>미리보기 화면입니다. 미리보기 화면입니다. 미리보기 화면입니다. 미리보기 화면입니다. 미리보기 화면입니다. 미리보기 화면입니다.</P>
-    )
-  }
-  
-  if(left_text){
-    return(
-      <P align={align} margin={margin} width={width}>미리보기 화면입니다. 미리보기 화면입니다. 미리보기 화면입니다. 미리보기 화면입니다. 미리보기 화면입니다. 미리보기 화면입니다.</P>
+      <P {...styles}>미리보기 화면입니다. 미리보기 화면입니다. 미리보기 화면입니다. 미리보기 화면입니다. 미리보기 화면입니다. 미리보기 화면입니다.</P>
     )
   }
 
@@ -46,6 +34,7 @@ Text.defaultProps = {
   align: false,
   __onClick: () => {},
   width: false,
+  padding: false,
 };
 
 const P = styled.p`
@@ -55,6 +44,7 @@ const P = styled.p`
   ${(props) => (props.margin? `margin: ${props.margin};` : '')}
   ${(props) => (props.align? `text-align: ${props.align};` : '')}
   ${(props) => (props.width? `width: ${props.width};` : '')}
+  ${(props) => (props.padding? `padding: ${props.padding};` : '')}
 `;
 
 const Div = styled.div`

@@ -28,7 +28,6 @@ const Image = (props) => {
     if(shape === "sample_center"){
         return (
             <AspectOutter>
-                <Text center_text></Text>
                 <CenterInner {...styles}  onClick={_onClick} padding={padding}></CenterInner>
             </AspectOutter>
         )
@@ -37,10 +36,7 @@ const Image = (props) => {
     if(shape === "sample_right"){
         return (
             <AspectOutter>
-                <Grid is_flex>
-                    <Text left_text width="60%"></Text>
-                    <RightInner {...styles}  onClick={_onClick} padding={padding}></RightInner>
-                </Grid>
+                <RightInner {...styles}  onClick={_onClick} padding={padding}></RightInner>
             </AspectOutter>
         )
     }
@@ -48,10 +44,7 @@ const Image = (props) => {
     if(shape === "sample_left"){
         return (
             <AspectOutter>
-                <Grid is_flex>
-                    <LeftInner {...styles}  onClick={_onClick} padding={padding}></LeftInner>
-                    <Text right_text width="60%"></Text>
-                </Grid>
+                <LeftInner {...styles}  onClick={_onClick} padding={padding}></LeftInner>
             </AspectOutter>
         )
     }
@@ -64,6 +57,7 @@ const Image = (props) => {
 
 
 }
+
 
 Image.defaultProps = {
   shape: "circle",
@@ -102,24 +96,36 @@ const CenterInner = styled.div`
     overflow: hidden;
     background-image: url("${(props) => props.src}");
     background-size: cover;
+    cursor: pointer;
+    &:hover{
+        opacity: 0.9;
+    }
 `;
 
 const RightInner = styled.div`
     position: relative;
-    padding-bottom: 75%;
+    padding-bottom: 133%;
     width: 100%;
     overflow: hidden;
     background-image: url("${(props) => props.src}");
     background-size: cover;
+    cursor: pointer;
+    &:hover{
+        opacity: 0.9;
+    }
 `;
 
 const LeftInner = styled.div`
     position: relative;
-    padding-bottom: 75%;
+    padding-bottom: 133%;
     width: 100%;
     overflow: hidden;
     background-image: url("${(props) => props.src}");
     background-size: cover;
+    cursor: pointer;
+    &:hover{
+        opacity: 0.9;
+    }
 `;
 
 const ImageCircle = styled.div`
